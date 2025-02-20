@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "ws-server/proto";
+
+message Message {
+  string id = 1;
+  string sender = 2;
+  string content = 3;
+  int64 timestamp = 4;
+}
+
+message ChatRequest {
+  string room_id = 1;
+}
+
+message ChatResponse {
+  Message message = 1;
+}
