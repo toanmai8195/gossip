@@ -1,0 +1,16 @@
+module(
+    name = "room_manager_module",
+    version = "1.0",
+)
+
+bazel_dep(name = "rules_kotlin", version = "2.1.0")
+bazel_dep(name = "rules_jvm_external", version = "6.7")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+use_repo(maven, "maven")
+maven.install(
+    artifacts = [
+        "com.datastax.oss:java-driver-core:4.17.0",
+    ],
+    repositories = ["https://repo1.maven.org/maven2"],
+)
