@@ -3,6 +3,9 @@ package server
 import (
 	"log"
 	"net/http"
+	bp "ws-server/proto"
+
+	"google.golang.org/protobuf/proto"
 )
 
 func (s *WSServer) HandleConnection(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +23,26 @@ func (s *WSServer) HandleConnection(w http.ResponseWriter, r *http.Request) {
 			log.Println("Read error:", err)
 			break
 		}
+
+		event := &bp.RequestEvent{}
+
+		errParse := proto.Unmarshal(msg, event)
+		if errParse != nil {
+			log.Println("Event convert failed", err)
+		}
+
+		switch event.Type {
+		case bp.EventType_PING:
+			{
+				s.Ack <- event
+			}
+		default:
+			{
+				log.Printf("No handler event %v!", event.Type)
+
+			}
+		}
+
 		s.broadcast <- msg
 	}
-
 }

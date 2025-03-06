@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"sync"
 
+	pb "ws-server/proto"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -16,6 +18,7 @@ type WSServer struct {
 	upgrader  websocket.Upgrader
 	Clients   map[*websocket.Conn]*Connection
 	broadcast chan []byte
+	Ack       chan *pb.RequestEvent
 	Mu        sync.RWMutex
 }
 
@@ -26,6 +29,7 @@ func NewWSServer() *WSServer {
 		},
 		Clients:   make(map[*websocket.Conn]*Connection),
 		broadcast: make(chan []byte, 1000000),
+		Ack:       make(chan *pb.RequestEvent, 1000000),
 	}
 }
 

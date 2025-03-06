@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"time"
 	"ws-server/handler"
 	"ws-server/server"
 )
@@ -12,7 +11,7 @@ func main() {
 	wsServer := server.NewWSServer()
 
 	go wsServer.StartBroadcast(10)
-	go handler.StartPing(wsServer, 30*time.Second)
+	go handler.StartPing(wsServer, 5)
 	go wsServer.StartWorker()
 
 	http.HandleFunc("/ws", wsServer.HandleConnection)

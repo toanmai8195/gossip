@@ -11,11 +11,15 @@ message Message {
   int64 timestamp = 4;
 }
 
-message ChatResponse {
-  Message message = 1;
+message RequestEvent{
+  EventType type = 1; 
+  oneof content {
+    Message message= 2;
+    string payload = 3;
+  }
 }
 
-message Event{
+message ResponseEvent{
   EventType type = 1; 
   oneof content {
     Message message= 2;
