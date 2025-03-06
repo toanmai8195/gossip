@@ -1,0 +1,13 @@
+# Binaries & Build Artifacts
+bazel-bin/
+bazel-out/
+bazel-testlogs/
+bazel-cache/
+bazel-* 
+
+# Go Modules
+go.sum
+go.mod
+
+# Compiled Protobuf Files
+proto/*.pb.go

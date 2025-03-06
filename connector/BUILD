@@ -8,6 +8,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//server",
+        "//handler",
         "//proto:chat_go_proto",
     ],
 )
@@ -17,6 +18,7 @@ go_binary(
     embed = [":connector_lib"],
     deps = [
     "//server",
+    "//handler",
      "//proto:chat_go_proto", 
     ],
 )

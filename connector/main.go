@@ -3,17 +3,19 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
+	"ws-server/handler"
 	"ws-server/server"
 )
 
 func main() {
-	srv := server.NewServer()
+	wsServer := server.NewWSServer()
 
-	http.HandleFunc("/ws", srv.HandleWS)
+	go wsServer.StartBroadcast(10)
+	go handler.StartPing(wsServer, 30*time.Second)
+	go wsServer.StartWorker()
 
+	http.HandleFunc("/ws", wsServer.HandleConnection)
 	log.Println("WebSocket server started on :8080")
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal("ListenAndServe:", err)
-	}
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
